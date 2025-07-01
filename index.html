@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¿Cuántos Años Necesitas Ahorrar para tu Jubilación?</title>
+    <title>Calculadora de Tiempo para Independencia Financiera</title>
     <style>
         * {
             margin: 0;
@@ -13,295 +13,190 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
             background: white;
             border-radius: 20px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             overflow: hidden;
         }
 
         .header {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
             color: white;
-            padding: 40px 30px;
+            padding: 40px;
             text-align: center;
         }
 
         .header h1 {
             font-size: 2.5em;
-            margin-bottom: 15px;
-            font-weight: 300;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         .header p {
-            font-size: 1.3em;
+            font-size: 1.2em;
             opacity: 0.9;
-            margin-bottom: 10px;
         }
 
-        .subtitle {
-            font-size: 1.1em;
-            opacity: 0.8;
-            font-style: italic;
+        .form-section {
+            padding: 40px;
         }
 
-        .calculator-section {
-            padding: 40px 30px;
-        }
-
-        .input-group {
+        .form-group {
             margin-bottom: 25px;
         }
 
-        .input-group label {
+        label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 600;
-            color: #2c3e50;
+            font-weight: bold;
+            color: #333;
             font-size: 1.1em;
         }
 
-        .input-group input, .input-group select {
+        input[type="number"] {
             width: 100%;
             padding: 15px;
-            border: 2px solid #e1e8ed;
+            border: 2px solid #e1e5e9;
             border-radius: 10px;
             font-size: 1.1em;
             transition: all 0.3s ease;
         }
 
-        .input-group input:focus, .input-group select:focus {
+        input[type="number"]:focus {
             outline: none;
-            border-color: #1e3c72;
-            box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
-        }
-
-        .row {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .col {
-            flex: 1;
-            min-width: 250px;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         .calculate-btn {
             width: 100%;
-            padding: 20px;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 12px;
-            font-size: 1.4em;
-            font-weight: 600;
+            padding: 18px;
+            font-size: 1.3em;
+            font-weight: bold;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin: 30px 0;
+            margin-bottom: 20px;
         }
 
         .calculate-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(30, 60, 114, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
 
         .results {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 35px;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 30px;
             border-radius: 15px;
-            margin: 30px 0;
+            margin-top: 30px;
             display: none;
         }
 
         .results.show {
             display: block;
-            animation: slideIn 0.6s ease;
+            animation: fadeIn 0.5s ease;
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(30px); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .result-item {
             background: white;
-            padding: 25px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border-left: 5px solid #1e3c72;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .result-item h3 {
-            color: #2c3e50;
+            color: #333;
             margin-bottom: 10px;
             font-size: 1.3em;
         }
 
         .result-value {
-            font-size: 2.2em;
+            font-size: 2em;
             font-weight: bold;
-            color: #1e3c72;
-            margin-bottom: 10px;
+            color: #667eea;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
 
-        .result-subtitle {
-            color: #7f8c8d;
-            font-size: 1em;
-        }
-
-        .plan-comparison {
-            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 12px;
-            margin: 20px 0;
-        }
-
-        .plan-comparison h3 {
-            margin-bottom: 15px;
-            font-size: 1.4em;
-        }
-
-        .plan-options {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .plan-card {
-            background: rgba(255,255,255,0.2);
-            padding: 20px;
-            border-radius: 10px;
-            flex: 1;
-            min-width: 200px;
+        .calendly-section {
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            padding: 40px;
             text-align: center;
+            color: white;
         }
 
-        .plan-card h4 {
+        .calendly-section h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .calendly-section p {
             font-size: 1.2em;
-            margin-bottom: 10px;
-        }
-
-        .plan-card .plan-value {
-            font-size: 1.8em;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .recommendation {
-            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 12px;
-            margin: 20px 0;
-        }
-
-        .recommendation h3 {
-            margin-bottom: 15px;
-            font-size: 1.4em;
-        }
-
-        .lead-form {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            color: white;
-            padding: 40px 30px;
-            margin-top: 40px;
-        }
-
-        .lead-form h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 2.2em;
-        }
-
-        .lead-form p {
-            text-align: center;
             margin-bottom: 30px;
-            font-size: 1.2em;
             opacity: 0.9;
         }
 
-        .form-row {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .form-col {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .lead-form input {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1em;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 20px;
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.4em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.3);
-        }
-
-        .benefits {
-            margin-top: 30px;
-            text-align: center;
-        }
-
-        .benefits ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .benefits li {
-            padding: 12px 0;
-            font-size: 1.1em;
-        }
-
-        .benefits li:before {
-            content: "✓ ";
-            color: #27ae60;
+        .calendly-btn {
+            display: inline-block;
+            background: white;
+            color: #19547b;
+            padding: 18px 40px;
+            font-size: 1.3em;
             font-weight: bold;
-            margin-right: 10px;
-            font-size: 1.2em;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .calendly-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            background: #f8f9ff;
+        }
+
+        .note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
         }
 
         @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
             .header h1 {
                 font-size: 2em;
             }
             
-            .row, .form-row, .plan-options {
-                flex-direction: column;
-            }
-            
-            .col, .form-col, .plan-card {
-                min-width: 100%;
+            .form-section, .calendly-section {
+                padding: 30px 20px;
             }
         }
     </style>
@@ -309,330 +204,131 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>⏰ ¿Cuántos Años Necesitas Ahorrar?</h1>
-            <p>Descubre el tiempo exacto para alcanzar tu meta de jubilación</p>
-            <div class="subtitle">Basado en planes reales de jubilación garantizada</div>
+            <h1>🏆 Calculadora de Independencia Financiera</h1>
+            <p>Descubre cuánto tiempo necesitas para alcanzar tu libertad financiera</p>
         </div>
 
-        <div class="calculator-section">
-            <div class="row">
-                <div class="col">
-                    <div class="input-group">
-                        <label for="currentAge">Tu Edad Actual</label>
-                        <input type="number" id="currentAge" placeholder="42" value="42">
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="input-group">
-                        <label for="targetAge">¿A qué edad quieres jubilarte?</label>
-                        <input type="number" id="targetAge" placeholder="65" value="65">
-                    </div>
-                </div>
+        <div class="form-section">
+            <div class="form-group">
+                <label for="ahorros">💰 Ahorros actuales (COP):</label>
+                <input type="number" id="ahorros" placeholder="Ej: 10000000">
             </div>
 
-            <div class="row">
-                <div class="col">
-                    <div class="input-group">
-                        <label for="monthlyGoal">Ingreso mensual deseado en jubilación ($)</label>
-                        <input type="number" id="monthlyGoal" placeholder="2000" value="2000">
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="input-group">
-                        <label for="monthlyCapacity">¿Cuánto puedes ahorrar mensualmente? ($)</label>
-                        <input type="number" id="monthlyCapacity" placeholder="500" value="500">
-                    </div>
-                </div>
+            <div class="form-group">
+                <label for="meta">🎯 Meta de independencia financiera (COP):</label>
+                <input type="number" id="meta" placeholder="Ej: 100000000">
             </div>
 
-            <div class="row">
-                <div class="col">
-                    <div class="input-group">
-                        <label for="currentSavings">Ahorros actuales para jubilación ($)</label>
-                        <input type="number" id="currentSavings" placeholder="10000" value="10000">
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="input-group">
-                        <label for="riskProfile">Perfil de riesgo</label>
-                        <select id="riskProfile">
-                            <option value="conservative">Conservador (2.5% - 3.5%)</option>
-                            <option value="moderate" selected>Moderado (3.5% - 4.5%)</option>
-                            <option value="aggressive">Agresivo (4.5% - 5.5%)</option>
-                        </select>
-                    </div>
-                </div>
+            <div class="form-group">
+                <label for="ahorro-mensual">📈 Ahorro mensual (COP):</label>
+                <input type="number" id="ahorro-mensual" placeholder="Ej: 2000000">
             </div>
 
-            <button class="calculate-btn" onclick="calculateYears()">
-                🎯 Calcular Años Necesarios
+            <div class="form-group">
+                <label for="rendimiento">📊 Rendimiento anual esperado (%):</label>
+                <input type="number" id="rendimiento" placeholder="Ej: 8" step="0.1">
+            </div>
+
+            <button class="calculate-btn" onclick="calcular()">
+                ✨ Calcular mi Tiempo de Independencia
             </button>
 
             <div id="results" class="results">
                 <div class="result-item">
-                    <h3>⏱️ Tiempo Necesario de Ahorro</h3>
-                    <div class="result-value" id="yearsNeeded">0 años</div>
-                    <div class="result-subtitle">Con tu capacidad actual de ahorro</div>
+                    <h3>⏰ Tiempo para alcanzar tu meta:</h3>
+                    <div class="result-value" id="tiempo-resultado"></div>
                 </div>
-
+                
                 <div class="result-item">
-                    <h3>💰 Total a Aportar</h3>
-                    <div class="result-value" id="totalContributions">$0</div>
-                    <div class="result-subtitle">Suma de todos tus aportes</div>
+                    <h3>💎 Capital final proyectado:</h3>
+                    <div class="result-value" id="capital-resultado"></div>
                 </div>
-
+                
                 <div class="result-item">
-                    <h3>📈 Capital Acumulado</h3>
-                    <div class="result-value" id="finalCapital">$0</div>
-                    <div class="result-subtitle">Incluyendo intereses compuestos</div>
+                    <h3>🚀 Total ahorrado en el período:</h3>
+                    <div class="result-value" id="total-ahorrado"></div>
                 </div>
 
-                <div class="plan-comparison">
-                    <h3>🏆 Comparación con Planes Reales</h3>
-                    <div class="plan-options">
-                        <div class="plan-card">
-                            <h4>Plan Executive</h4>
-                            <div class="plan-value" id="executiveYears">10 años</div>
-                            <div>Aporte: $2,241/mes</div>
-                            <div>Renta: $1,324/mes</div>
-                        </div>
-                        <div class="plan-card">
-                            <h4>Plan Supreme</h4>
-                            <div class="plan-value" id="supremeYears">14 años</div>
-                            <div>Aporte: $247/mes</div>
-                            <div>Renta: $224/mes</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="recommendation">
-                    <h3>💡 Recomendación Personalizada</h3>
-                    <div id="recommendation">Calculando tu mejor estrategia...</div>
+                <div class="note">
+                    <strong>📝 Nota:</strong> Este cálculo es una proyección basada en los datos ingresados. Los rendimientos reales pueden variar según las condiciones del mercado.
                 </div>
             </div>
         </div>
 
-        <div class="lead-form">
-            <h2>📋 Recibe tu Plan Personalizado</h2>
-            <p>Obtén una propuesta específica basada en tus resultados</p>
-            
-            <form id="leadForm">
-                <div class="form-row">
-                    <div class="form-col">
-                        <input type="text" id="firstName" placeholder="Nombre" required>
-                    </div>
-                    <div class="form-col">
-                        <input type="text" id="lastName" placeholder="Apellido" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-col">
-                        <input type="email" id="email" placeholder="Correo Electrónico" required>
-                    </div>
-                    <div class="form-col">
-                        <input type="tel" id="phone" placeholder="Teléfono" required>
-                    </div>
-                </div>
-                <button type="submit" class="submit-btn">
-                    📞 Solicitar Consulta Gratuita
-                </button>
-            </form>
-
-            <div class="benefits">
-                <ul>
-                    <li>Análisis personalizado de tu situación financiera</li>
-                    <li>Comparación detallada de planes Executive vs Supreme</li>
-                    <li>Estrategias para optimizar tus ahorros</li>
-                    <li>Consulta gratuita con especialista en jubilación</li>
-                    <li>Planes con protección garantizada y heredable</li>
-                </ul>
-            </div>
+        <div class="calendly-section">
+            <h2>¿Quieres un Plan Personalizado?</h2>
+            <p>Agenda una sesión de mentoría conmigo para crear tu estrategia de independencia financiera paso a paso</p>
+            <a href="https://calendly.com/jimenarroyave/consultoria-financiera/" target="_blank" class="calendly-btn">
+                📅 Agendar Sesión Gratis
+            </a>
         </div>
     </div>
 
     <script>
-        function formatCurrency(num) {
-            return new Intl.NumberFormat('es-CO', {
-                style: 'currency',
-                currency: 'USD',
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
-            }).format(num);
-        }
+        function calcular() {
+            // Obtener valores
+            const ahorrosActuales = parseFloat(document.getElementById('ahorros').value) || 0;
+            const metaIndependencia = parseFloat(document.getElementById('meta').value) || 0;
+            const ahorroMensual = parseFloat(document.getElementById('ahorro-mensual').value) || 0;
+            const rendimientoAnual = parseFloat(document.getElementById('rendimiento').value) || 0;
 
-        function calculateYears() {
-            const currentAge = parseFloat(document.getElementById('currentAge').value);
-            const targetAge = parseFloat(document.getElementById('targetAge').value);
-            const monthlyGoal = parseFloat(document.getElementById('monthlyGoal').value);
-            const monthlyCapacity = parseFloat(document.getElementById('monthlyCapacity').value);
-            const currentSavings = parseFloat(document.getElementById('currentSavings').value);
-            const riskProfile = document.getElementById('riskProfile').value;
-
-            if (!currentAge || !targetAge || !monthlyGoal || !monthlyCapacity) {
-                alert('Por favor completa todos los campos obligatorios');
+            // Validar inputs
+            if (metaIndependencia <= 0 || ahorroMensual <= 0) {
+                alert('Por favor, ingresa valores válidos para la meta y el ahorro mensual.');
                 return;
             }
 
-            if (targetAge <= currentAge) {
-                alert('La edad de jubilación debe ser mayor a tu edad actual');
+            if (metaIndependencia <= ahorrosActuales) {
+                document.getElementById('tiempo-resultado').textContent = '¡Ya alcanzaste tu meta!';
+                document.getElementById('capital-resultado').textContent = formatearPesos(ahorrosActuales);
+                document.getElementById('total-ahorrado').textContent = 'COP $0';
+                document.getElementById('results').classList.add('show');
                 return;
             }
 
-            // Tasas de retorno según perfil
-            const rates = {
-                conservative: 0.03,
-                moderate: 0.04,
-                aggressive: 0.05
-            };
+            // Calcular tiempo necesario
+            const rendimientoMensual = rendimientoAnual / 100 / 12;
+            let capitalActual = ahorrosActuales;
+            let meses = 0;
+            let totalAhorrado = 0;
 
-            const annualRate = rates[riskProfile];
-            const monthlyRate = annualRate / 12;
+            while (capitalActual < metaIndependencia && meses < 1200) { // máximo 100 años
+                capitalActual = capitalActual * (1 + rendimientoMensual) + ahorroMensual;
+                totalAhorrado += ahorroMensual;
+                meses++;
+            }
+
+            // Mostrar resultados
+            const años = Math.floor(meses / 12);
+            const mesesRestantes = meses % 12;
             
-            // Capital necesario para generar la renta deseada (usando 4% de retiro)
-            const requiredCapital = (monthlyGoal * 12) / 0.04;
-            
-            // Cálculo iterativo para encontrar los años necesarios
-            let years = 1;
-            let found = false;
-            
-            while (years <= 50 && !found) {
-                const months = years * 12;
-                
-                // Valor futuro de ahorros actuales
-                const futureCurrentSavings = currentSavings * Math.pow(1 + annualRate, years);
-                
-                // Valor futuro de contribuciones mensuales
-                const futureContributions = monthlyCapacity * 
-                    ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
-                
-                const totalCapital = futureCurrentSavings + futureContributions;
-                
-                if (totalCapital >= requiredCapital) {
-                    found = true;
-                    
-                    // Mostrar resultados
-                    document.getElementById('yearsNeeded').textContent = years + ' años';
-                    document.getElementById('totalContributions').textContent = 
-                        formatCurrency(monthlyCapacity * months + currentSavings);
-                    document.getElementById('finalCapital').textContent = 
-                        formatCurrency(totalCapital);
-                    
-                    // Comparación con planes reales
-                    updatePlanComparison(monthlyGoal, monthlyCapacity);
-                    
-                    // Recomendación
-                    generateRecommendation(years, monthlyCapacity, monthlyGoal, targetAge - currentAge);
-                    
-                    break;
-                } else {
-                    years++;
+            let tiempoTexto = '';
+            if (años > 0) {
+                tiempoTexto = `${años} año${años > 1 ? 's' : ''}`;
+                if (mesesRestantes > 0) {
+                    tiempoTexto += ` y ${mesesRestantes} mes${mesesRestantes > 1 ? 'es' : ''}`;
                 }
+            } else {
+                tiempoTexto = `${meses} mes${meses > 1 ? 'es' : ''}`;
             }
-            
-            if (!found) {
-                document.getElementById('yearsNeeded').textContent = '50+ años';
-                document.getElementById('recommendation').textContent = 
-                    'Con tu capacidad actual de ahorro, necesitarías más de 50 años. Te recomendamos aumentar tu ahorro mensual o considerar inversiones con mayor rendimiento.';
-            }
-            
+
+            document.getElementById('tiempo-resultado').textContent = tiempoTexto;
+            document.getElementById('capital-resultado').textContent = formatearPesos(capitalActual);
+            document.getElementById('total-ahorrado').textContent = formatearPesos(totalAhorrado);
+
+            // Mostrar resultados con animación
             document.getElementById('results').classList.add('show');
-            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
         }
 
-        function updatePlanComparison(monthlyGoal, monthlyCapacity) {
-            // Análisis basado en los casos reales
-            const executiveMonthly = 2241; // $26,896/12
-            const executiveRent = 1324; // $15,891/12
-            
-            const supremeMonthly = 247; // $2,967/12  
-            const supremeRent = 224; // $2,691/12
-            
-            let executiveRecommendation = '';
-            let supremeRecommendation = '';
-            
-            if (monthlyCapacity >= executiveMonthly * 0.8) {
-                executiveRecommendation = '✅ Viable para ti';
-            } else {
-                executiveRecommendation = '⚠️ Requiere mayor ahorro';
-            }
-            
-            if (monthlyGoal <= supremeRent * 1.5) {
-                supremeRecommendation = '✅ Cumple tu meta';
-            } else {
-                supremeRecommendation = '⚠️ Renta insuficiente';
-            }
-            
-            // Actualizar las tarjetas
-            document.querySelector('.plan-card:first-child').innerHTML = `
-                <h4>Plan Executive</h4>
-                <div class="plan-value">10 años</div>
-                <div>Aporte: $2,241/mes</div>
-                <div>Renta: $1,324/mes</div>
-                <div style="margin-top: 10px; font-size: 0.9em;">${executiveRecommendation}</div>
-            `;
-            
-            document.querySelector('.plan-card:last-child').innerHTML = `
-                <h4>Plan Supreme</h4>
-                <div class="plan-value">14 años</div>
-                <div>Aporte: $247/mes</div>
-                <div>Renta: $224/mes</div>
-                <div style="margin-top: 10px; font-size: 0.9em;">${supremeRecommendation}</div>
-            `;
+        function formatearPesos(cantidad) {
+            return 'COP $' + cantidad.toLocaleString('es-CO');
         }
 
-        function generateRecommendation(years, monthlyCapacity, monthlyGoal, maxYears) {
-            let recommendation = '';
-            
-            if (years <= maxYears) {
-                recommendation = `🎉 ¡Excelente! Puedes alcanzar tu meta en ${years} años con tu capacidad actual de ahorro de ${formatCurrency(monthlyCapacity)} mensuales. `;
-                
-                if (monthlyCapacity >= 2000) {
-                    recommendation += 'Te recomendamos el Plan Executive para mayor protección y beneficios.';
-                } else if (monthlyCapacity >= 200) {
-                    recommendation += 'El Plan Supreme se adapta perfectamente a tu perfil de ahorro.';
-                } else {
-                    recommendation += 'Considera aumentar gradualmente tu ahorro mensual para optimizar tu jubilación.';
-                }
-            } else {
-                const deficit = years - maxYears;
-                const additionalNeeded = Math.ceil((monthlyGoal * 12 * 0.25) / 12);
-                
-                recommendation = `⚠️ Necesitas ${years} años, pero solo tienes ${maxYears} años disponibles. Te sugerimos: 1) Aumentar tu ahorro mensual a ${formatCurrency(monthlyCapacity + additionalNeeded)}, 2) Considerar trabajar ${deficit} años adicionales, o 3) Reducir tu meta de ingresos a ${formatCurrency(monthlyGoal * 0.8)} mensuales.`;
+        // Permitir cálculo con Enter
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                calcular();
             }
-            
-            document.getElementById('recommendation').textContent = recommendation;
-        }
-
-        document.getElementById('leadForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = {
-                firstName: document.getElementById('firstName').value,
-                lastName: document.getElementById('lastName').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                calculatorResults: {
-                    yearsNeeded: document.getElementById('yearsNeeded').textContent,
-                    totalContributions: document.getElementById('totalContributions').textContent,
-                    finalCapital: document.getElementById('finalCapital').textContent,
-                    currentAge: document.getElementById('currentAge').value,
-                    monthlyGoal: document.getElementById('monthlyGoal').value,
-                    monthlyCapacity: document.getElementById('monthlyCapacity').value
-                }
-            };
-
-            console.log('Lead capturado:', formData);
-            
-            alert(`¡Gracias ${formData.firstName}! Un especialista se contactará contigo en las próximas 24 horas al ${formData.phone} para presentarte la mejor opción de plan.`);
-        });
-
-        // Auto-calcular cuando cambien los valores principales
-        ['currentAge', 'targetAge', 'monthlyGoal', 'monthlyCapacity'].forEach(id => {
-            document.getElementById(id).addEventListener('input', function() {
-                if (document.getElementById('results').classList.contains('show')) {
-                    setTimeout(calculateYears, 1000);
-                }
-            });
         });
     </script>
 </body>
